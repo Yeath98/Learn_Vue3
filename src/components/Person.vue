@@ -1,49 +1,65 @@
 <template>
     <div class="person">
-        <!-- <h2>{{ a }}</h2>
-        <h2>{{ list }}</h2> -->
-        <ul>
-            <li v-for="item in list" :key="item.id"><!-- 使用v-for循环遍历数组,key最好要加上，否则就是索引值0、1、2自动的，但会出现问题 -->
-                编号：{{ item.id }}，姓名：{{ item.name }}，年龄：{{ item.age }}
-            </li>
-        </ul>
+        <h2>当前求和为：{{ sum }}</h2>
+        <button @click="add">点我+1</button>
+
     </div>
 
 </template>
 
 
 <script setup lang="ts" name="Person"> 
-    //import {a} from '@/types';//引入变量
-    import {type PersonInterface} from '@/types'; //引入接口
-    import {type Persons } from '@/types';//引入接口（类型别名）
-    //import { defineProps } from 'vue';
-    import { withDefaults } from 'vue';
+    import { ref } from 'vue'
+    import { onBeforeMount } from 'vue'
+    import { onMounted } from 'vue'
+    import { onBeforeUpdate } from 'vue'
+    import { onUpdated } from 'vue'
+    import { onBeforeUnmount } from 'vue'
+    import { onUnmounted } from 'vue'
 
-    //defineProps(['a']);接收a
+    //数据  
+    let sum = ref(0)
+
+    //方法
+    function add() {
+        sum.value++
+    }
+
+    //创建，vue2是beforeCreate和created；vue3是setup函数
+    console.log('Person组件创建了');
+
+    //挂载，vue2是beforeMount和mounted；vue3是onBeforeMounth和onMounted生命周期钩子函数
+    //挂载前
+    onBeforeMount(() => {
+        console.log('Person组件挂载前');
+    })
+    //挂载完毕
+    onMounted(() => {
+        console.log('Person组件挂载完毕');
+    })
     
-    //接收a，同时props保存起来
-    // let x = defineProps(['a']);
-    // console.log(x.a);
 
-    //只接收list，如果APP.vue传过来的是一个数组，那么这里的list就是一个数组，如果是是一个数字，他也会变成数字
-    //let x = defineProps(['list']);
+    //更新，vue2是beforeUpdate和updated；vue3是onBeforeUpdate和onUpdated生命周期钩子函数
+    //更新前
+    onBeforeUpdate(() => {
+        console.log('Person组件更新前');
+    })
+    //更新完毕
+    onUpdated(() => {
+        console.log('Person组件更新完毕');
+    })
+
     
-
-    //接收a和list，并且限制类型
-    //let { a, list } = defineProps<{ a: string; list: Persons }>();
-
-    //接收a和list，并且限制类型，还要限制必要性，以及默认值
-    let { a, list } = withDefaults(defineProps<{ a?: string; list?: Persons }>(), {
-        a: '默认发送',
-        list:()=> [
-            { id: '004', name: '张三', age: 180 },
-            { id: '005', name: '李四', age: 200 },
-            { id: '006', name: '王五', age: 220 },
-        ]
-    });
-
-
-
+    //卸载，vue2（是叫 销毁）是beforeDestroy和destroyed；vue3是onBeforeUnmount和onUnmounted生命周期钩子函数
+    //卸载前
+    onBeforeUnmount(() => {
+        console.log('Person组件卸载前');
+    })
+    //卸载完毕 
+    onUnmounted(() => {
+        console.log('Person组件卸载完毕');
+    })
+   
 </script>
 
 
