@@ -9,7 +9,11 @@ export default defineConfig({
   plugins: [
     vue(),
     VueSetupExtend()
+    
   ],
+  define: {
+    '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': false, // 根据需要设置为 true 或 false
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
